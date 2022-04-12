@@ -27,7 +27,9 @@
 						{{index}}
 					</view>
 					<view class="song_name">
-						{{i.name}}
+						<view class="s_n">
+							{{i.name}}
+						</view>
 						<view class="ar">
 							<span v-for="(i2,index) in i.ar">
 								<!-- {{i2.name}} -->
@@ -136,7 +138,7 @@
 				playlist: [],
 				creator: {},
 				hotComments: [],
-				newComments:[]
+				newComments: []
 			}
 		},
 		methods: {
@@ -165,13 +167,13 @@
 					},
 				})
 			},
-			getnewComments(){
+			getnewComments() {
 				uni.request({
 					url: "http://localhost:3000/comment/new",
 					data: {
 						id: this.id,
 						type: 2,
-						sortType:3
+						sortType: 3
 					},
 					success: res => {
 						this.newComments = res.data.data.comments
@@ -179,9 +181,9 @@
 					},
 				})
 			},
-			goplay(id){
+			goplay(id) {
 				uni.navigateTo({
-					url:"./playmusic?id="+id
+					url: "./playmusic?id=" + id
 				})
 			}
 		},
@@ -195,33 +197,41 @@
 			padding: 60rpx 20rpx 60rpx 30rpx;
 			height: 362rpx;
 			background: linear-gradient(to right, #C0C0C0, #15161b);
+
 			.plhead_wrap {
 				display: flex;
+
 				.plhead_fl {
 					height: 252rpx;
 					width: 252rpx;
 				}
+
 				.plhead_fr {
 					margin-left: 32rpx;
+
 					.lsthd_title {
 						color: #fefefe;
 						font-size: 34rpx;
 						height: 88rpx;
 						padding-top: 2rpx;
 					}
+
 					.lsthd_auth {
 						display: flex;
 						align-items: center;
+
 						.user_avatarUrl {
 							height: 60rpx;
 							width: 60rpx;
 							border-radius: 30rpx;
 							margin-right: 10rpx;
 							margin-top: 10rpx;
+
 							image {
 								border-radius: 30rpx;
 							}
 						}
+
 						.creator_nickname {
 							color: hsla(0, 0%, 100%, .7);
 						}
@@ -233,10 +243,12 @@
 		.pylst_list {
 			.m-sglst {
 				padding: 20rpx;
+
 				.m-sgitem {
 					display: flex;
 					height: 100rpx;
 					justify-content: space-between;
+
 					.index {
 						width: 50rpx;
 						line-height: 100rpx;
@@ -244,10 +256,22 @@
 
 					.song_name {
 						flex: 1;
+						.s_n {
+							overflow: hidden;
+							/*内容超出后隐藏*/
+							text-overflow: ellipsis;
+							/* 超出内容显示为省略号 */
+							white-space: nowrap;
+							/* 文本不进行换行 */
+						}
+
+						overflow: hidden;
 
 						.ar {
 							margin-top: 10rpx;
 							color: #888;
+							height: 40rpx;
+							overflow: hidden;
 						}
 					}
 				}
@@ -258,9 +282,11 @@
 			.cmt_c {
 				display: flex;
 				padding: 20rpx;
+
 				.right {
 					flex: 1;
 					margin-left: 40rpx;
+
 					.cmt_nickname_likedCount {
 						display: flex;
 						justify-content: space-between;
@@ -272,11 +298,13 @@
 
 					.likedCount {
 						display: flex;
-						.count{
+
+						.count {
 							margin-right: 20rpx;
 							font-size: 10rpx;
 							color: #999;
 						}
+
 						.img {
 							height: 28rpx;
 							width: 28rpx;

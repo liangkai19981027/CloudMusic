@@ -6,9 +6,11 @@
 		</view>
 		<view class="music">
 			<view class="m-song-wrap">
-				<view class="img">
+				<view class="img ">
+					<image src="../../static/needle-ab.png" mode="" :class="{'normal':!isPaused, 'rotate':isPaused}">
+					</image>
 				</view>
-				<image :src="picUrl" class="song_img" @click="got()"></image>
+				<image :src="picUrl" class="song_img" :class="{'tp':isPaused}" @click="got()"></image>
 			</view>
 		</view>
 		<view class="footer">
@@ -36,6 +38,7 @@
 		},
 		onLoad(options) {
 			this.id = options.id
+			console.log(this.id)
 		},
 		data() {
 			return {
@@ -44,8 +47,8 @@
 				list: [],
 				picUrl: '',
 				isPaused: false,
-				songUrl:'',
-				innerAudioContext:{}
+				songUrl: '',
+				innerAudioContext: {},
 			}
 		},
 		methods: {
@@ -67,20 +70,20 @@
 					url: './t'
 				})
 			},
-			getSongUrl(){
+			getSongUrl() {
 				uni.request({
 					url: "http://localhost:3000/song/url",
 					data: {
 						id: this.id
 					},
 					success: res => {
-						this.songUrl=res.data.data[0].url
+						this.songUrl = res.data.data[0].url
 					}
 				})
 			},
 			play() {
 				if (!this.isPaused) {
-					innerAudioContext.src =this.songUrl;
+					innerAudioContext.src = this.songUrl;
 					innerAudioContext.onPlay(() => {
 						console.log('开始播放');
 					});
@@ -119,8 +122,14 @@
 				position: relative;
 
 				.img {
-					width: 200rpx;
-					height: 200rpx;
+					width: 146rpx;
+					height: 236rpx;
+					margin-left: 400rpx;
+					z-index: 99;
+
+					image {
+						transition: transform 1s ease;
+					}
 				}
 
 				.song_img {
@@ -145,16 +154,19 @@
 				}
 			}
 
-			.m-song-wrap::before {
-				content: "";
-				background-image: url(../../static/needle-ab.png);
-				background-size: 100%;
-				position: absolute;
-				left: 400rpx;
-				width: 146rpx;
-				height: 236rpx;
-				z-index: 33;
-			}
+			// .m-song-wrap::before {
+			// 	content: "";
+			// 	background-image: url(../../static/needle-ab.png);
+			// 	background-size: 100%;
+			// 	position: absolute;
+			// 	left: 400rpx;
+			// 	width: 146rpx;
+			// 	height: 236rpx;
+			// 	z-index: 33;
+			// 	transition: transform 5s ease;
+			// 	transform: rotate(-33deg);
+			// 	transform-origin: top left;
+			// }
 		}
 
 		.footer {
@@ -183,5 +195,34 @@
 	image {
 		width: 100%;
 		height: 100%;
+		z-index: 9999;
+	}
+
+	.rotate {
+		transform: rotate(0deg);
+		transform-origin: top left;
+	}
+
+	.normal {
+		transform: rotate(-33deg);
+		transform-origin: top left;
+	}
+
+	.tp {
+		/* transform: rotate(360deg); */
+
+		animation: rotation 3s linear infinite;
+	}
+
+	@keyframes rotation {
+
+		from {
+			transform: rotate(0deg);
+		}
+
+		to {
+			transform: rotate(360deg);
+		}
+
 	}
 </style>
