@@ -10,7 +10,7 @@
 					<image src="../../static/needle-ab.png" mode="" :class="{'normal':!isPaused, 'rotate':isPaused}">
 					</image>
 				</view>
-				<image :src="picUrl" class="song_img" :class="{'tp':isPaused}" @click="got()"></image>
+				<image :src="picUrl" class="song_img" :class="{'pause':!isPaused}" @click="got()"></image>
 			</view>
 		</view>
 		<view class="footer">
@@ -31,6 +31,7 @@
 <script>
 	let innerAudioContext = uni.createInnerAudioContext();
 	innerAudioContext.autoplay = true;
+	innerAudioContext.loop=true
 	export default {
 		created() {
 			this.getMusicDeatil()
@@ -49,6 +50,7 @@
 				isPaused: false,
 				songUrl: '',
 				innerAudioContext: {},
+				currentTime:0
 			}
 		},
 		methods: {
@@ -84,8 +86,10 @@
 			play() {
 				if (!this.isPaused) {
 					innerAudioContext.src = this.songUrl;
+					innerAudioContext.startTime=this.currentTime
 					innerAudioContext.onPlay(() => {
 						console.log('开始播放');
+						
 					});
 					innerAudioContext.onError((res) => {
 						console.log(res.errMsg);
@@ -94,8 +98,8 @@
 				} else {
 
 					// innerAudioContext.destroy();
-					innerAudioContext.onPause(function() {
-						console.log('end');
+					innerAudioContext.onPause(()=> {
+						this.currentTime=innerAudioContext.currentTime
 					});
 					innerAudioContext.pause()
 				}
@@ -139,6 +143,7 @@
 					left: 248rpx;
 					position: absolute;
 					border-radius: 150rpx;
+					animation: rotation 10s linear infinite;
 				}
 
 				.img::after {
@@ -224,5 +229,8 @@
 			transform: rotate(360deg);
 		}
 
+	}
+	.pause{
+		animation-play-state: paused !important;
 	}
 </style>

@@ -11,6 +11,8 @@
 		<view class="tabs">
 			<u-tabs :list="list" :is-scroll="false" :current="current" @change="change" active-color="#dd001b"
 				bar-width="100"></u-tabs>
+				
+				<u-line color="#C0C0C0"></u-line>
 		</view>
 		<component :is="component"></component>
 	</view>
@@ -22,7 +24,7 @@
 	import search from './search.vue'
 	export default {
 		created() {
-			this.getHotMusicList()
+			
 		},
 		components: {
 			home,
@@ -57,15 +59,6 @@
 						this.component = 'search'
 				}
 			},
-			getHotMusicList() {
-				uni.request({
-					url: "http://localhost:3000/personalized?limit=6",
-					success: res => {
-						console.log(res);
-						this.hotMusicList = res.data.result
-					},
-				})
-			}
 		},
 
 	}

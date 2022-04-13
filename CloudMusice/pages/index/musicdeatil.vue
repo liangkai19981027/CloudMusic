@@ -32,14 +32,13 @@
 						</view>
 						<view class="ar">
 							<span v-for="(i2,index) in i.ar">
-								<!-- {{i2.name}} -->
 								{{i2.name+(index+1==i.ar.length?"-":"/")}}
 							</span>
 							{{i.al.name}}
 						</view>
 					</view>
 					<view class="bf">
-						<u-icon name="play-circle" size="50" color="#c5c5c5"></u-icon>
+						<image src="../../static/play.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -253,7 +252,10 @@
 						width: 50rpx;
 						line-height: 100rpx;
 					}
-
+					.bf{
+						width: 50rpx;
+						height: 50rpx;
+					}
 					.song_name {
 						flex: 1;
 						.s_n {
